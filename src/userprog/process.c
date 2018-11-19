@@ -232,13 +232,6 @@ process_exit (void)
   child_close_all ();
 
   //printf("PAPA WAKEUP\n");
-  struct thread *parent = get_thread (curr->pa_tid);
-  if (parent != NULL){
-	lock_acquire (&parent->ch_lock);
-	if (parent->wait_tid == curr->tid)
-	  cond_signal (&parent->ch_cond, &parent->ch_lock);
-	lock_release (&parent->ch_lock);
-  }
 //  printf("%s: exit(%d)\n", curr->name, curr->exit_status);
   //printf("IT'S exiting\n");
   /* Destroy the current process's page directory and switch back
@@ -258,7 +251,15 @@ process_exit (void)
   //curr->spt= NULL;
   //printf ("spt destruction done\n");
 #endif
-   
+  struct thread *parent = get_thread (curr->pa_tid);
+  if (parent != NULL){
+	lock_acquire (&parent->ch_lock);
+	if (parent->wait_tid == curr->tid)
+	  cond_signal (&parent->ch_cond, &parent->ch_lock);
+	lock_release (&parent->ch_lock);
+  }
+
+  
   pd = curr->pagedir;
   if (pd != NULL) 
     {

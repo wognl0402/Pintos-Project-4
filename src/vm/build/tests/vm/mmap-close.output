@@ -1,6 +1,6 @@
-Copying tests/vm/mmap-close into /tmp/faQcI9NpuL.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/faQcI9NpuL.dsk...
-Writing command line to /tmp/4o4SJg6YY5.dsk...
+Copying tests/vm/mmap-close into /tmp/RCwLBlXux_.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/RCwLBlXux_.dsk...
+Writing command line to /tmp/amqrb2kePC.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -f put mmap-close put sample.txt run mmap-close
@@ -23,8 +23,8 @@ Executing 'mmap-close':
 (mmap-close) end
 mmap-close: exit(0)
 Execution of 'mmap-close' complete.
-Timer: 380 ticks
-Thread: 0 idle ticks, 307 kernel ticks, 79 user ticks
+Timer: 384 ticks
+Thread: 0 idle ticks, 312 kernel ticks, 78 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 100 reads, 228 writes
 hd1:0: 109 reads, 0 writes

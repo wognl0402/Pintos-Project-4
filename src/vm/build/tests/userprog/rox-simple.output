@@ -1,5 +1,5 @@
-Copying tests/userprog/rox-simple into /tmp/P8mciMfUnw.dsk...
-Writing command line to /tmp/O6rBA3dT7l.dsk...
+Copying tests/userprog/rox-simple into /tmp/jFibFSAQ7S.dsk...
+Writing command line to /tmp/8T5FVKGgcd.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -f put rox-simple run rox-simple
@@ -22,8 +22,8 @@ Executing 'rox-simple':
 (rox-simple) end
 rox-simple: exit(0)
 Execution of 'rox-simple' complete.
-Timer: 338 ticks
-Thread: 0 idle ticks, 272 kernel ticks, 72 user ticks
+Timer: 342 ticks
+Thread: 0 idle ticks, 277 kernel ticks, 71 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 62 reads, 216 writes
 hd1:0: 104 reads, 0 writes
