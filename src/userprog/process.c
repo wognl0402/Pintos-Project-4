@@ -191,21 +191,29 @@ process_wait (tid_t child_tid)
   //cur->wait_tid = child_tid;
   if (temp->alive){
   //while (get_thread (child_tid) != NULL ){
-	//printf("GO TO SLEEP\n");
+	//printf("GO TO SLEEP [%d] wait for [%d] \n", cur->tid, child_tid);
 	cur->wait_tid = child_tid;
 	cond_wait (&cur->ch_cond, &cur->ch_lock);
+    //printf("wokeup\n");
+	//child_status = temp->exit_status;
   }
-  cur->wait_tid = 0;
+  
   if (!temp->user_kill || temp->used){
-	child_status = -1;
+  //printf("userkill?\n");
+    child_status = -1;
+    
+   //PANIC("SEX");
   }else{
   temp->used = true;
   child_status = temp->exit_status;
-  lock_release (&cur->ch_lock);
+  //lock_release (&cur->ch_lock);
   }
+  
   //while(1){}
   //list_remove (e);
   //free (temp);
+  cur->wait_tid = -1;
+  lock_release (&cur->ch_lock);
   return child_status;
 }
 
@@ -254,10 +262,31 @@ process_exit (void)
   struct thread *parent = get_thread (curr->pa_tid);
   if (parent != NULL){
 	lock_acquire (&parent->ch_lock);
-	if (parent->wait_tid == curr->tid)
-	  cond_signal (&parent->ch_cond, &parent->ch_lock);
+	struct list_elem *ee;
+	struct dead_body *db;
+	for (ee = list_begin (&parent->ch_list);
+		ee != list_end (&parent->ch_list);
+		ee = list_next (ee)){
+	  db = list_entry (ee, struct dead_body, ch_elem);
+
+	  if (db->ch_tid == curr->tid){
+		db->exit_status = curr->exit_status;
+		db->alive = false;
+	  }
+		//lock_release (&parent->ch_lock);
+  
+	}
+	if (parent->wait_tid == curr->tid){
+	    //db->alive = false;
+		cond_signal (&parent->ch_cond, &parent->ch_lock);
+	}
 	lock_release (&parent->ch_lock);
+	/*
+		}
+	*/
   }
+
+
 
   
   pd = curr->pagedir;

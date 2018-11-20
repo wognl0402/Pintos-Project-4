@@ -48,9 +48,11 @@ void exit_ (int status){
 	  temp = list_entry (e, struct dead_body, ch_elem);
 	  if (temp->ch_tid == cur->tid){
 		lock_acquire (&parent->ch_lock);
+		cur->exit_status = status;
 		temp->user_kill = true;
-		temp->exit_status = status;
-		temp->alive = false;
+		//temp->exit_status = status;
+		//printf("%s, %d exit andwake\n", cur->name, cur->tid);
+		//temp->alive = false;
 		//cond_signal (&parent->ch_cond, &parent->ch_lock);
 		lock_release (&parent->ch_lock);
 	  }
@@ -264,7 +266,7 @@ static int syscall_read_ (struct intr_frame *f){
   char *buffer = * (char **) (f->esp+8);
   unsigned size = * (unsigned *) (f->esp+12);
   //printf("CHECK BUF\n");
-  acquire_filesys_lock ();
+  //acquire_filesys_lock ();
   /*
    * if (fd == 0)
 	goto std_in;
@@ -340,7 +342,7 @@ static int syscall_read_ (struct intr_frame *f){
   
   //printf("[%d]......TRYINg TO READ fd[%d]\n", thread_current ()->tid, fd);
   
-  //acquire_filesys_lock ();
+  acquire_filesys_lock ();
   if (fd==0){
 	//acquire_filesys_lock ();
 	int i = 0;
@@ -415,7 +417,7 @@ static int syscall_write_ (struct intr_frame *f){
   char *buffer = * (char **) (f->esp+8);
   //char *buffer = (char *) (f->esp+8);
   unsigned size = *(unsigned *) (f->esp+12);
-  acquire_filesys_lock ();
+  //acquire_filesys_lock ();
   //P3
   //original
   //valid_usrptr ((const uint8_t *) buffer);
@@ -480,7 +482,7 @@ static int syscall_write_ (struct intr_frame *f){
   //============//
   
   
-
+  acquire_filesys_lock ();
   if (fd==1){
 	//acquire_filesys_lock ();
 	putbuf(buffer ,size);
